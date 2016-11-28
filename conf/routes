@@ -4,6 +4,18 @@
 
 # A home page
 GET   /                           controllers.HomeController.index
+GET	  /login					  controllers.HomeController.login
+POST  /login					  controllers.HomeController.dash
+GET	  /signup					  controllers.HomeController.signup
+POST  /signupAction				  controllers.HomeController.signupAction
+GET	  /welcome					  controllers.HomeController.welcome
+
+#profile page
+GET	  /auth 					  controllers.ProfileController.index
+GET	  /auth/friends				  controllers.ProfileController.friends
+GET	  /auth/trash				  controllers.ProfileController.trash
+GET	  /auth/logout				  controllers.ProfileController.logout
+
 
 # Web jars asset
 GET   /assets/libs/*file          controllers.WebJarAssets.at(file)

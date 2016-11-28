@@ -1,16 +1,17 @@
 package controllers
 
 import javax.inject._
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import play.api._
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.{ I18nSupport, MessagesApi }
 
-import models.{Contact, ContactFormData}
-
 import ejisan.play.libs.{ PageMetaSupport, PageMetaApi }
-
+import models.User
+import models.tables.Users
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
@@ -19,7 +20,8 @@ import ejisan.play.libs.{ PageMetaSupport, PageMetaApi }
 class HomeController @Inject() (
   val messagesApi: MessagesApi,
   val pageMetaApi: PageMetaApi,
-  implicit val wja: WebJarAssets
+  implicit val wja: WebJarAssets,
+  val users: Users
 ) extends Controller with I18nSupport with PageMetaSupport {
 
   /**
@@ -28,64 +30,79 @@ class HomeController @Inject() (
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-
-  val registrationForm = Form(
-    tuple(
-      "firstname" -> nonEmptyText,
-      "lastname"  -> nonEmptyText,
-      "username"  -> nonEmptyText,
-      "password"  -> nonEmptyText,
-      "age"    -> optional(number)
-    )
-  )
-
+  
   val loginForm = Form (
     tuple(
-      "username" ->   nonEmptyText,
-      "password" ->   nonEmptyText
+      "username" -> nonEmptyText,
+      "password" -> nonEmptyText
     )
   )
 
-  val contactForm = Form (
+  val signupForm = Form (
     mapping(
-      "name"    -> nonEmptyText,
-      "number"  -> nonEmptyText
-    )(ContactFormData.apply)(ContactFormData.unapply _)
+      "id"          -> optional(number),  
+      "fullname" 		-> nonEmptyText,
+      "birthdate"		-> sqlDate("yyyy-MM-dd"),
+      "email" 			-> nonEmptyText,
+      "number" 			-> nonEmptyText,
+      "address"			-> nonEmptyText,
+      "nationality" -> nonEmptyText,
+      "username" 		-> nonEmptyText,
+      "password" 		-> nonEmptyText
+    )(User.apply)(User.unapply)
   )
 
   def index = Action { implicit request =>
-    Ok(views.html.index(registrationForm))
+    Ok(views.html.index())
   }
 
-  def login = Action{ implicit request =>
+  def login = Action { implicit request =>
     Ok(views.html.login(loginForm))
   }
-
-  def contact = Action{ implicit request =>
-    Ok(views.html.contact(contactForm))
+  def signup = Action { implicit request =>
+    Ok(views.html.signup(signupForm))
   }
 
-  def loginAction = Action { implicit request =>
-    loginForm.bindFromRequest.fold(
-      formWithErrors => { BadRequest(views.html.login(formWithErrors)) },
-      data => Redirect(routes.HomeController.dashboard).withSession("name" -> "test")
+  def welcome = Action.async { implicit request =>
+    users.all.map(user => 
+      Ok(views.html.welcome(user))
     )
   }
 
-  def registration = Action { implicit request =>
-    registrationForm.bindFromRequest.fold(
-      formWithErrors => { 
-        BadRequest(views.html.index(formWithErrors)) },
-      data => {
-        Ok(views.html.registration(data))
+  def dash = Action { implicit request =>
+    loginForm.bindFromRequest.fold(
+      formWithErrors => { BadRequest(views.html.login(formWithErrors)) },
+      data => { Ok(views.html.dash(data)) }
+    )
+  }
+
+  def signupAction = Action.async { implicit request =>
+    signupForm.bindFromRequest.fold(
+      formWithErrors => { Future.successful(
+        BadRequest(views.html.signup(formWithErrors))) },
+      data => { 
+        users.add(data) map ( d =>
+          Redirect(routes.HomeController.login).flashing("success" -> "Successfuly signed up. You can now Login using your account")
+        )
       }
     )
   }
 
-  def dashboard = Action { implicit request =>
-    val name = request.session.get("name")
-    println(name)
-    Ok(views.html.dashboard(name))
-  }
+  // def loginAction = Action.async { implicit request =>
+  //   loginForm.bindFromRequest.fold(
+  //     formWithErrors => { Future.successful(BadRequest(views.html.login(formWithErrors))) },
+  //     data => { users.findByUsername(data._1) map{
+  //       case Some(user) => Redirect(routes.ProfileController.index(user))
+  //       case None => NotFound  
+  //     }}
+  //   )
+  // }
+
+    // def edit(id: Int) = Action.async { implicit request =>
+    // contacts.findById(id).map {
+    //   case Some(contact) =>  Ok(views.html.update(signupForm.fill(contact)))
+    //   case None => NotFound
+    // }
+
 
 }
