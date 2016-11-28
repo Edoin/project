@@ -10,7 +10,6 @@ scalaVersion := "2.11.8"
 libraryDependencies ++= Seq(
   "com.ejisan" %% "play-pagemeta" % "1.2.1",
   "com.ejisan" %% "play-form" % "2.0.2",
-  
   "com.typesafe.slick" %% "slick" % "3.1.1",
   "com.typesafe.play" %% "play-slick" % "2.0.0",
   "org.postgresql" % "postgresql" % "9.4.1208"

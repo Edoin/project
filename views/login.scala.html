@@ -1,0 +1,21 @@
+@import helper._
+
+@(loginForm : Form[(String,String)])(implicit header: RequestHeader, messages: Messages, pm: PageMeta, wja: WebJarAssets, flash: Flash)
+@page("Log In") {
+	@flash.get("success").getOrElse("Welcome")
+	<section class="row">
+		@form( routes.HomeController.dash ) {
+			<label>Username</label>
+			<input type="text" name='@loginForm("username").name' placeholder="username">
+
+			<label>Password</label>
+			<input type="password" name='@loginForm("password").name' placeholder="password">
+
+			<a href="#">forgot password?</a>
+
+			<input type="submit" name="Submit" value="Log In">
+		}
+	</section>
+} {
+	
+}

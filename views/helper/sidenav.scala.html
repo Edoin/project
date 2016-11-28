@@ -1,0 +1,14 @@
+@(username: String)
+<div class="row">
+	<div class="small-4 columns">
+		<header>@username</header>
+			<nav>
+				<ul class="menu vertical">
+					<li><a href="@routes.ProfileController.index">Account</a></li>
+					<li><a href="@routes.ProfileController.friends">My Friends</a></li>
+					<li><a href="@routes.ProfileController.trash">Trash</a></li>
+					<li><a href="@routes.ProfileController.logout">Log out</a></li>
+				</ul>
+			</nav>
+		</div>
+	<div class="small-8 columns">

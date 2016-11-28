@@ -1,0 +1,15 @@
+@import helper._
+@(data: (String,String))(implicit header: RequestHeader, messages: Messages, pm: PageMeta, wja: WebJarAssets)
+@helper.base{
+	<link rel="stylesheet" href="@routes.Assets.versioned("style/global.css")">
+	<link rel="stylesheet" href="@routes.Assets.versioned("style/main.css")">
+} {
+	
+	<section class="row">
+		<div class="columns">@data._1</div>
+		<div class="columns">@data._2</div>
+	</section>
+
+	<script src="@routes.Assets.versioned("scripts/main.js")"></script>
+	<script src="@routes.Assets.versioned("scripts/main2.jss")"></script>
+}

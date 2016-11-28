@@ -1,0 +1,71 @@
+@import helper._
+@import models.User
+
+@(signupForm: Form[User])(implicit header: RequestHeader, messages: Messages, pm: PageMeta, wja: WebJarAssets)
+@page("Sign Up") {
+	
+	@form( routes.HomeController.signupAction ) {
+		<section class="row">
+			<div class="columns small-12">
+				@inputText(
+		      signupForm("fullname"),
+		      '_showConstraints -> false
+		    )
+			</div>
+`
+			<div class="columns small-12">
+				@inputDate(
+					signupForm("birthdate"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<div class="columns small-12">
+				@inputText(
+					signupForm("email"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<div class="columns small-12">
+				@inputText(
+					signupForm("number"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<div class="columns small-12">
+				@inputText(
+					signupForm("address"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<div class="columns small-12">
+				@inputText(
+					signupForm("nationality"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<div class="columns small-12">
+				@inputText(
+					signupForm("username"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<div class="columns small-12">
+				@inputPassword(
+					signupForm("password"),
+					'_showConstraints -> false
+		    )
+			</div>
+
+			<input type="submit">
+		</section>
+	}	
+} {
+	<script src="@routes.Assets.versioned("scripts/main.js")"></script>
+	<script src="@routes.Assets.versioned("scripts/main2.jss")"></script>
+}

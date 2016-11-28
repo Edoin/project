@@ -1,0 +1,33 @@
+@import helper._
+@()(implicit header: RequestHeader, messages: Messages, pm: PageMeta, wja: WebJarAssets)
+@page("") {
+  <div class="row">
+    <div class="small-12 columns">
+      <img src="@routes.Assets.versioned("images/logo.jpg")" class="banner" alt="">
+    </div>
+  </div>
+
+  <div class="row small-up-1 medium-up-2">
+    <div class="small-6 columns">
+      <a href="@routes.HomeController.login" class="expanded hollow button">Log In</a>
+    </div>
+    <div class="small-6 columns">
+      <a href="@routes.HomeController.signup" class="expanded button">Sign Up</a>
+    </div>
+  </div>
+  
+  <section class="row">
+      <p clas="text-justify">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id consequat augue. Mauris sit amet tortor eget libero iaculis congue nec at lacus. Fusce imperdiet ullamcorper velit sed euismod. Quisque mollis libero leo, vel vestibulum est vehicula et. Donec lobortis tellus nec dui molestie feugiat. In maximus mollis ante, at tristique justo tristique ut. In nec maximus metus, vel pulvinar sapien. Phasellus nec purus iaculis, fringilla neque ut, volutpat lectus.
+
+        Aenean rutrum ligula venenatis elit volutpat, quis accumsan est blandit. Nunc eu lorem finibus, consequat massa ut, blandit velit. Vivamus cursus malesuada maximus. Suspendisse ac lobortis diam. In orci diam, volutpat in tempus id, semper eget elit. Ut id turpis erat. Nulla vulputate arcu eu vehicula vestibulum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla in facilisis mauris.
+      </p>
+  </section>
+
+  <footer>
+    <label>Tabi Ta</label> 
+  </footer>
+} {
+  <script src="@routes.Assets.versioned("scripts/main.js")"></script>
+  <script src="@routes.Assets.versioned("scripts/main2.js")"></script>
+}

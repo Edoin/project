@@ -1,0 +1,31 @@
+@import 'settings';
+
+/** Index **/
+
+img{
+	&.banner {
+		display: block;
+		margin: 0 auto;
+		max-width: 400px;
+	}
+}
+
+section { 	
+	&.row {
+		p { padding: 20px }
+	}
+}
+
+footer {
+	border-top: 3px solid #444;
+
+	label {
+		/*color: #e6e6e6;*/
+		text-align: center;
+		padding: 10px 0;
+	}
+}
+
+/** Login **/
+
+
